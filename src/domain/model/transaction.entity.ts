@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 import { InvalidTransactionStatusError } from '@domain/errors/transaction.error';
 
 export enum TransactionStatus {
