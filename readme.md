@@ -1,31 +1,31 @@
 # Hacker-Rank Belo Test
 
-A payments API built with NestJS, TypeORM and PostgreSQL that allows managing money transfers between users.
+API de pagos construida con NestJS, TypeORM y PostgreSQL que permite gestionar transferencias de dinero entre usuarios.
 
 ---
 
-## Getting started
+## Cómo levantar el proyecto
 
-### 1. Start the database
+### 1. Levantar la base de datos
 
 ```bash
 docker-compose up -d
 ```
 
-### 2. Install dependencies and run the app
+### 2. Instalar dependencias e iniciar la app
 
 ```bash
 npm install
 npm run start:dev
 ```
 
-### 3. Explore the API
+### 3. Explorar la API
 
-Open [http://localhost:3000/swagger](http://localhost:3000/swagger) to browse the interactive Swagger documentation.
+Abrí [http://localhost:3000/swagger](http://localhost:3000/swagger) para ver la documentación interactiva de Swagger.
 
-### 4. Seed users
+### 4. Crear usuarios en la base de datos
 
-Before hitting any endpoint, insert at least **2 users** directly in the database — they will act as sender and receiver in transactions.
+Antes de usar los endpoints, insertá al menos **2 usuarios** directamente en la base de datos — van a actuar como emisor y receptor de las transacciones.
 
 ```sql
 INSERT INTO "user" (id, name, email, balance, "createdAt", "updatedAt")
@@ -36,24 +36,22 @@ VALUES
 
 ---
 
-## Running tests
+## Correr los tests
 
 ```bash
-# Unit + integration
+# Unit + integración
 npm run test
 
-# With coverage
-npm run test:cov
 ```
 
 ---
 
-## Environment variables
+## Variables de entorno
 
-| Variable          | Default     | Description              |
-|-------------------|-------------|--------------------------|
-| `POSTGRES_HOST`   | `localhost` | PostgreSQL host          |
-| `POSTGRES_PORT`   | `5432`      | PostgreSQL port          |
-| `POSTGRES_USER`   | `postgres`  | PostgreSQL user          |
-| `POSTGRES_PASSWORD` | `postgres` | PostgreSQL password     |
-| `POSTGRES_DB`     | `payments`  | PostgreSQL database name |
+| Variable            | Default     | Descripción                     |
+|---------------------|-------------|---------------------------------|
+| `POSTGRES_HOST`     | `localhost` | Host de PostgreSQL              |
+| `POSTGRES_PORT`     | `5432`      | Puerto de PostgreSQL            |
+| `POSTGRES_USER`     | `postgres`  | Usuario de PostgreSQL           |
+| `POSTGRES_PASSWORD` | `postgres`  | Contraseña de PostgreSQL        |
+| `POSTGRES_DB`       | `payments`  | Nombre de la base de datos      |
