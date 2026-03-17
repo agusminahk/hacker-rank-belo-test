@@ -43,7 +43,7 @@ describe(TypeORMUserRepository.name, () => {
     const id = overrides.id ?? randomUUID();
     return User.createExisting({
       id,
-      name: 'Test User',
+      name: 'Alice',
       email: `${id}@test.com`,
       balance: 1000,
       createdAt: new Date(),
@@ -53,7 +53,7 @@ describe(TypeORMUserRepository.name, () => {
   }
 
   describe('save', () => {
-    it('persiste y devuelve el usuario', async () => {
+    it('persists the user and returns it as a domain entity', async () => {
       const user = makeUser();
 
       const saved = await repository.save(user);
@@ -66,7 +66,7 @@ describe(TypeORMUserRepository.name, () => {
   });
 
   describe('update', () => {
-    it('actualiza el balance del usuario', async () => {
+    it('persists the new balance after a balance change', async () => {
       const user = makeUser({ balance: 1000 });
       await repository.save(user);
       const updated = user.withNewBalance(500);
@@ -77,7 +77,7 @@ describe(TypeORMUserRepository.name, () => {
       expect(found?.balance).toBe(500);
     });
 
-    it('actualiza correctamente a balance 0', async () => {
+    it('correctly persists balance when updated to zero', async () => {
       const user = makeUser({ balance: 100 });
       await repository.save(user);
       const updated = user.withNewBalance(0);
@@ -90,7 +90,7 @@ describe(TypeORMUserRepository.name, () => {
   });
 
   describe('findById', () => {
-    it('devuelve el usuario cuando existe', async () => {
+    it('returns the user when it exists in the database', async () => {
       const user = makeUser();
       await repository.save(user);
 
@@ -101,12 +101,12 @@ describe(TypeORMUserRepository.name, () => {
       expect(found?.email).toBe(user.email);
     });
 
-    it('devuelve null cuando el usuario no existe', async () => {
+    it('returns null when no user exists with the given ID', async () => {
       const found = await repository.findById(randomUUID());
       expect(found).toBeNull();
     });
 
-    it('devuelve el balance correcto luego de múltiples actualizaciones', async () => {
+    it('reflects the last update when the balance is modified multiple times', async () => {
       const user = makeUser({ balance: 1000 });
       await repository.save(user);
       await repository.update(user.withNewBalance(800));
