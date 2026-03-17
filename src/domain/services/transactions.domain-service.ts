@@ -1,4 +1,6 @@
+import { Inject, Injectable } from '@nestjs/common';
 import { Transaction } from '@domain/model/transaction.entity';
+import { TRANSACTION_REPOSITORY, TransactionRepository } from '@domain/port/transaction.repository';
 
 export interface GenerateTransactionInput {
   fromUserId: string;
@@ -6,12 +8,15 @@ export interface GenerateTransactionInput {
   amount: number;
 }
 
+@Injectable()
 export class TransactionsDomainService {
-  constructor() {}
+  constructor(
+    @Inject(TRANSACTION_REPOSITORY)
+    private readonly transactionRepository: TransactionRepository
+  ) {}
 
   async generateTransaction(input: GenerateTransactionInput): Promise<Transaction> {
-    console.log('transaction', input);
-
-    return {} as any;
+    const transaction = Transaction.create(input);
+    return this.transactionRepository.save(transaction);
   }
 }

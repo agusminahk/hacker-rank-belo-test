@@ -6,6 +6,16 @@ export enum TransactionStatus {
   REJECTED = 'REJECTED',
 }
 
+export interface CreateExistingTransactionInput {
+  id: string;
+  fromUserId: string;
+  toUserId: string;
+  amount: number;
+  status: TransactionStatus;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface CreateTransactionInput {
   fromUserId: string;
   toUserId: string;
@@ -26,5 +36,17 @@ export class Transaction {
   public static create(input: CreateTransactionInput): Transaction {
     const id = crypto.randomUUID();
     return new Transaction(id, input.fromUserId, input.toUserId, input.amount, TransactionStatus.PENDING);
+  }
+
+  public static createExisting(input: CreateExistingTransactionInput): Transaction {
+    return new Transaction(
+      input.id,
+      input.fromUserId,
+      input.toUserId,
+      input.amount,
+      input.status,
+      input.createdAt,
+      input.updatedAt
+    );
   }
 }

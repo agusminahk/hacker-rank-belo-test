@@ -6,6 +6,15 @@ export interface CreateUserInput {
   balance: number;
 }
 
+export interface CreateExistingUserInput {
+  id: string;
+  name: string;
+  email: string;
+  balance: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export class User {
   private constructor(
     readonly id: string,
@@ -19,5 +28,9 @@ export class User {
   public static create(input: CreateUserInput): User {
     const id = crypto.randomUUID();
     return new User(id, input.name, input.email, input.balance);
+  }
+
+  public static createExisting(input: CreateExistingUserInput): User {
+    return new User(input.id, input.name, input.email, input.balance, input.createdAt, input.updatedAt);
   }
 }

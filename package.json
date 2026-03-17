@@ -30,6 +30,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "joi": "^17.13.3",
+    "pg": "^8.20.0",
     "reflect-metadata": "^0.2.2",
     "uuid": "^9.0.1"
   },

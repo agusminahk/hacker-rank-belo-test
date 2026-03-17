@@ -1,7 +1,8 @@
 import { Transaction } from '@domain/model/transaction.entity';
 import { GenerateTransactionInput, TransactionsDomainService } from '@domain/services/transactions.domain-service';
-import { Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
+@Injectable()
 export class CreateTransactionUseCase {
   constructor(
     @Inject()
