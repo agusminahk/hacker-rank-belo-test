@@ -17,6 +17,11 @@ export class TransactionsDomainService {
 
   async generateTransaction(input: GenerateTransactionInput): Promise<Transaction> {
     const transaction = Transaction.create(input);
-    return this.transactionRepository.save(transaction);
+    return await this.transactionRepository.save(transaction);
+  }
+
+  async getTransactionsByUser(userId: string): Promise<Transaction[]> {
+    const transactionsByUserId = await this.transactionRepository.findByUserIdOrderedByDate(userId);
+    return transactionsByUserId;
   }
 }

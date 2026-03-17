@@ -27,4 +27,12 @@ export class TypeORMTransactionRepository implements TransactionRepository {
     const persistence = await this.repository.findOne({ where: { id: transactionId } });
     return persistence ? persistence.toDomain() : null;
   }
+
+  async findByUserIdOrderedByDate(userId: string): Promise<Transaction[]> {
+    const results = await this.repository.find({
+      where: [{ fromUserId: userId }, { toUserId: userId }],
+      order: { createdAt: 'DESC' },
+    });
+    return results.map((p) => p.toDomain());
+  }
 }

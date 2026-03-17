@@ -10,6 +10,6 @@ export class CreateTransactionUseCase {
   ) {}
 
   async execute(input: GenerateTransactionInput): Promise<Transaction> {
-    return this.transactionsDomainService.generateTransaction(input);
+    return await this.transactionsDomainService.generateTransaction(input);
   }
 }
