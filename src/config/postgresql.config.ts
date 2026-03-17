@@ -6,8 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 
 import Joi from 'joi';
 import { ConfigKeys } from '@config/config-keys';
-import { TransactionPersistence } from '@infrastructure/repositories/transaction/transaction.persistence';
-import { UserPersistence } from '@infrastructure/repositories/user/user.persistence';
+import { TransactionPersistence } from '@infrastructure/adapters/repositories/transaction/transaction.persistence';
+import { UserPersistence } from '@infrastructure/adapters/repositories/user/user.persistence';
 
 export const ENTITIES = [TransactionPersistence, UserPersistence];
 

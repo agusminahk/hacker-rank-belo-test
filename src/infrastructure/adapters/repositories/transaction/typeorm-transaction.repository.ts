@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Transaction, TransactionStatus } from '@domain/model/transaction.entity';
 import { TransactionRepository } from '@domain/port/transaction.repository';
-import { TransactionPersistence } from '@infrastructure/repositories/transaction/transaction.persistence';
+import { TransactionPersistence } from '@infrastructure/adapters/repositories/transaction/transaction.persistence';
 
 @Injectable()
 export class TypeORMTransactionRepository implements TransactionRepository {
