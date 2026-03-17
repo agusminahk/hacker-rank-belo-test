@@ -33,4 +33,8 @@ export class User {
   public static createExisting(input: CreateExistingUserInput): User {
     return new User(input.id, input.name, input.email, input.balance, input.createdAt, input.updatedAt);
   }
+
+  public withNewBalance(newBalance: number): User {
+    return new User(this.id, this.name, this.email, newBalance, this.createdAt, new Date());
+  }
 }

@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { InvalidTransactionStatusError } from '@domain/errors/transaction.error';
 
 export enum TransactionStatus {
   PENDING = 'PENDING',
@@ -21,6 +22,8 @@ export interface CreateTransactionInput {
   toUserId: string;
   amount: number;
 }
+
+export const TRANSACTION_AUTO_APPROVE_LIMIT = 50_000;
 
 export class Transaction {
   private constructor(
@@ -47,6 +50,37 @@ export class Transaction {
       input.status,
       input.createdAt,
       input.updatedAt
+    );
+  }
+  public markAsConfirmed(): Transaction {
+    if (this.status !== TransactionStatus.PENDING) {
+      throw new InvalidTransactionStatusError(this.status, TransactionStatus.PENDING);
+    }
+
+    return new Transaction(
+      this.id,
+      this.fromUserId,
+      this.toUserId,
+      this.amount,
+      TransactionStatus.CONFIRMED,
+      this.createdAt,
+      new Date()
+    );
+  }
+
+  public markAsRejected(): Transaction {
+    if (this.status !== TransactionStatus.PENDING) {
+      throw new InvalidTransactionStatusError(this.status, TransactionStatus.PENDING);
+    }
+
+    return new Transaction(
+      this.id,
+      this.fromUserId,
+      this.toUserId,
+      this.amount,
+      TransactionStatus.REJECTED,
+      this.createdAt,
+      new Date()
     );
   }
 }

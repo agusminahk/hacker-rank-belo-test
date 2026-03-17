@@ -35,4 +35,11 @@ export class TypeORMTransactionRepository implements TransactionRepository {
     });
     return results.map((p) => p.toDomain());
   }
+
+  async findPendingBySenderId(senderId: string): Promise<Transaction | null> {
+    const persistence = await this.repository.findOne({
+      where: { fromUserId: senderId, status: 'PENDING' },
+    });
+    return persistence ? persistence.toDomain() : null;
+  }
 }

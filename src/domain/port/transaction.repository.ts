@@ -7,4 +7,5 @@ export interface TransactionRepository {
   update(transaction: Transaction): Promise<void>;
   findById(transactionId: string): Promise<Transaction | null>;
   findByUserIdOrderedByDate(userId: string): Promise<Transaction[]>;
+  findPendingBySenderId(senderId: string): Promise<Transaction | null>;
 }
