@@ -4,7 +4,11 @@ import { TransactionStatus } from '@domain/model/transaction.entity';
 export class TransactionNotFoundError extends DomainError {
   public static readonly errorCode = 'TRANSACTION_NOT_FOUND';
   constructor(transactionId: string) {
-    super(`Transaction not found: ${transactionId}`, TransactionNotFoundError.errorCode, { transactionId });
+    super(
+      `Transaction ${transactionId} not found with status ${TransactionStatus.PENDING}`,
+      TransactionNotFoundError.errorCode,
+      { transactionId }
+    );
   }
 }
 

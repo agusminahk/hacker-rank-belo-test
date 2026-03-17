@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Transaction } from '@domain/model/transaction.entity';
+import { Transaction, TransactionStatus } from '@domain/model/transaction.entity';
 import { TransactionRepository } from '@domain/port/transaction.repository';
 import { TransactionPersistence } from '@infrastructure/repositories/transaction/transaction.persistence';
 
@@ -23,8 +23,8 @@ export class TypeORMTransactionRepository implements TransactionRepository {
     await this.repository.update({ id: persistence.id }, persistence);
   }
 
-  async findById(transactionId: string): Promise<Transaction | null> {
-    const persistence = await this.repository.findOne({ where: { id: transactionId } });
+  async findByIdAndStatus(transactionId: string, status: TransactionStatus): Promise<Transaction | null> {
+    const persistence = await this.repository.findOne({ where: { id: transactionId, status } });
     return persistence ? persistence.toDomain() : null;
   }
 

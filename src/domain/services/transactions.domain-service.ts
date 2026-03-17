@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { TRANSACTION_AUTO_APPROVE_LIMIT, Transaction } from '@domain/model/transaction.entity';
+import { TRANSACTION_AUTO_APPROVE_LIMIT, Transaction, TransactionStatus } from '@domain/model/transaction.entity';
 import { User } from '@domain/model/user.entity';
 import { TRANSACTION_REPOSITORY, TransactionRepository } from '@domain/port/transaction.repository';
 import { USER_REPOSITORY, UserRepository } from '@domain/port/user.repository';
@@ -43,7 +43,7 @@ export class TransactionsDomainService {
   }
 
   async approveTransaction(transactionId: string): Promise<Transaction> {
-    const transaction = await this.getTransaction(transactionId);
+    const transaction = await this.getPendingTransaction(transactionId);
 
     const { sender, receiver } = await this.findTransactionParts(transaction.fromUserId, transaction.toUserId);
 
@@ -62,7 +62,7 @@ export class TransactionsDomainService {
   }
 
   async rejectTransaction(transactionId: string): Promise<Transaction> {
-    const transaction = await this.getTransaction(transactionId);
+    const transaction = await this.getPendingTransaction(transactionId);
 
     const rejectedTransaction = transaction.markAsRejected();
     await this.transactionRepository.update(rejectedTransaction);
@@ -98,8 +98,9 @@ export class TransactionsDomainService {
     return confirmedTransaction;
   }
 
-  private async getTransaction(transactionId: string): Promise<Transaction> {
-    const transaction = await this.transactionRepository.findById(transactionId);
+  private async getPendingTransaction(transactionId: string): Promise<Transaction> {
+    const transaction = await this.transactionRepository.findByIdAndStatus(transactionId, TransactionStatus.PENDING);
+
     if (!transaction) {
       throw new TransactionNotFoundError(transactionId);
     }

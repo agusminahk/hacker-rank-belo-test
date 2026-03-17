@@ -1,9 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from '@src/app.module';
+import { RestExceptionFilter } from '@infrastructure/shared/exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.useGlobalFilters(new RestExceptionFilter());
 
   const config = new DocumentBuilder()
     .setTitle('Payments API')
