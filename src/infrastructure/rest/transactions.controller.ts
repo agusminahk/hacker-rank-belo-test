@@ -1,3 +1,4 @@
+import { CreateTransactionUseCase } from '@application/create-transaction.use-case';
 import { CreateTransactionRequest } from '@infrastructure/rest/create-transaction/create-transaction.request';
 import { CreateTransactionResponse } from '@infrastructure/rest/create-transaction/create-transaction.response';
 import { RestController } from '@infrastructure/shared/rest.decorator';
@@ -7,7 +8,10 @@ import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 @ApiTags('Transactions')
 @RestController('/transactions')
 export class TransactionsController {
-  constructor() {}
+  constructor(
+    @Inject()
+    private readonly createTransactionUseCase: CreateTransactionUseCase
+  ) {}
 
   @Post('')
   @HttpCode(200)
@@ -30,7 +34,7 @@ export class TransactionsController {
     description: 'Invalid request body',
   })
   async createTransaction(@Body() request: CreateTransactionRequest): Promise<CreateTransactionResponse> {
-    console.log({ request });
-    return {} as any;
+    const output = await this.createTransactionUseCase.execute(CreateTransactionRequest.toDomainInput(request));
+    return CreateTransactionResponse.fromDomainOutput(output);
   }
 }

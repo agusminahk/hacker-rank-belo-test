@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber, IsPositive, IsUUID } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateTransactionInput } from '@domain/model/transaction.entity';
+import { GenerateTransactionInput } from '@domain/services/transactions.domain-service';
 
 export class CreateTransactionRequest {
   @ApiProperty({
@@ -30,7 +30,7 @@ export class CreateTransactionRequest {
   @IsPositive()
   amount: number;
 
-  static toDomainInput(body: CreateTransactionRequest): CreateTransactionInput {
+  static toDomainInput(body: CreateTransactionRequest): GenerateTransactionInput {
     return {
       fromUserId: body.fromUserId,
       toUserId: body.toUserId,
