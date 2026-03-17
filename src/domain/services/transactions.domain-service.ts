@@ -3,7 +3,7 @@ import { TRANSACTION_AUTO_APPROVE_LIMIT, Transaction, TransactionStatus } from '
 import { User } from '@domain/model/user.entity';
 import { TRANSACTION_REPOSITORY, TransactionRepository } from '@domain/port/transaction.repository';
 import { USER_REPOSITORY, UserRepository } from '@domain/port/user.repository';
-import { TransactionNotFoundError, PendingTransactionExistsError } from '@domain/errors/transaction.error';
+import { TransactionPendingNotFoundError, PendingTransactionExistsError } from '@domain/errors/transaction.error';
 import { UserNotFoundError, UserInsufficientFundsError } from '@domain/errors/user.error';
 
 export interface GenerateTransactionInput {
@@ -102,7 +102,7 @@ export class TransactionsDomainService {
     const transaction = await this.transactionRepository.findByIdAndStatus(transactionId, TransactionStatus.PENDING);
 
     if (!transaction) {
-      throw new TransactionNotFoundError(transactionId);
+      throw new TransactionPendingNotFoundError(transactionId);
     }
 
     return transaction;
